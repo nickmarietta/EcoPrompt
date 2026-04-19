@@ -46,13 +46,17 @@ class SkeletonModel(BaseModel):
 
 
 class OptimizeResponse(BaseModel):
+    run_id: int | None = None
     optimized: str
+    optimized_prompt: str
     mode: str
     beforeTokens: float
     afterTokens: float
     efficiency: float
     clarityScore: float
     skeleton: SkeletonModel
+    eco_score: float
+    eco_breakdown: dict
 
 
 @app.get("/health")
@@ -128,24 +132,36 @@ def optimize_endpoint(req: PromptRequest):
             ]
             if result.get("rules_fallback"):
                 tags.append("fallback:rules")
+            eco_payload = result.get("eco", {})
+            changes_payload = {
+                "tags": tags,
+                "eco_score": eco_payload.get("eco_score"),
+                "eco_score_raw": eco_payload.get("eco_score_raw"),
+                "eco_breakdown": eco_payload.get("eco_breakdown", {}),
+                "eco_version": eco_payload.get("eco_version"),
+            }
             queries.insert_prompt_rewrite(
                 run_id,
                 result["optimized"],
-                tags,
-                DatabaseConfig.OLLAMA_MODEL or "qwen",
+                changes_payload,
+                result.get("rewrite_metrics", {}).get("model_name") or DatabaseConfig.OLLAMA_MODEL or "qwen",
                 latency_ms,
             )
         except Exception as e:
             logger.warning("DB persist failed (non-fatal): %s", e)
 
     return OptimizeResponse(
+        run_id=run_id,
         optimized=result["optimized"],
+        optimized_prompt=result["optimized"],
         mode=result["mode"],
         beforeTokens=result["beforeTokens"],
         afterTokens=result["afterTokens"],
         efficiency=result["efficiency"],
         clarityScore=result["clarityScore"],
         skeleton=skeleton_model,
+        eco_score=float(result.get("eco", {}).get("eco_score") or 0.0),
+        eco_breakdown=result.get("eco", {}).get("eco_breakdown", {}),
     )
 
 

@@ -43,7 +43,7 @@ def insert_prompt_run(
 def insert_prompt_rewrite(
     run_id: int,
     optimized_prompt: str,
-    changes: list[str],
+    changes: list[str] | dict[str, Any],
     model_name: str | None,
     latency_ms: int,
 ) -> None:
@@ -52,6 +52,12 @@ def insert_prompt_rewrite(
     conn = connect_to_database()
     try:
         cur = conn.cursor()
+        if isinstance(changes, dict):
+            changes_payload: dict[str, Any] = dict(changes)
+            if "tags" in changes_payload and not isinstance(changes_payload["tags"], list):
+                changes_payload["tags"] = [str(changes_payload["tags"])]
+        else:
+            changes_payload = {"tags": list(changes)}
         cur.execute(
             """
             INSERT INTO prompt_rewrites (
@@ -62,7 +68,7 @@ def insert_prompt_rewrite(
             (
                 run_id,
                 optimized_prompt,
-                json.dumps(changes),
+                json.dumps(changes_payload),
                 model_name,
                 latency_ms,
             ),
