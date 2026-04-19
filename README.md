@@ -25,6 +25,18 @@ npm install
 frontend/.env.local
 NEXT_PUBLIC_BACKEND_URL=http://localhost:8000
 npm run dev
+```
 
 ### Run Order
-Start services in this order:
+In 3 Separate terminals, start services in this order:
+
+```bash
+ollama serve # EcoPrompt
+
+cd backend # backend
+source .venv/bin/activate
+uvicorn main:app --reload --port 8000
+
+cd frontend # frontend
+npm run dev
+```
