@@ -17,6 +17,7 @@ import {
   losesConstraints,
 } from "@/lib/modes";
 import WaterMeter from "@/components/WaterMeter";
+import EcoPromptExplainer from "@/components/EcoPromptExplainer";
 import {
   computeClarityScore,
   detectMeaningLoss,
@@ -270,7 +271,12 @@ export default function EcoPromptUI() {
       : null;
 
   return (
-    <div className="grid flex-1 gap-8 xl:grid-cols-[minmax(0,1.08fr)_minmax(0,0.92fr)]">
+    <div className="flex flex-col gap-6">
+      <div className="rounded-xl border border-sky-500/20 bg-sky-950/15 px-4 py-3 shadow-inner backdrop-blur-md sm:px-5 sm:py-4">
+        <EcoPromptExplainer />
+      </div>
+
+      <div className="grid flex-1 gap-8 xl:grid-cols-[minmax(0,1.08fr)_minmax(0,0.92fr)]">
       <section className={`${panelClass} flex flex-col gap-5`}>
         <div className="flex flex-wrap items-center justify-between gap-2">
           {isBackendConfigured() ? (
@@ -704,6 +710,7 @@ export default function EcoPromptUI() {
           </ul>
         </div>
       </section>
+      </div>
     </div>
   );
 }

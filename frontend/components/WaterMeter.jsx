@@ -25,7 +25,7 @@ export default function WaterMeter({ beforeLiters, savedLiters }) {
     <div className="flex w-full max-w-sm flex-col items-center gap-3 sm:max-w-none">
       <div className="w-full text-center">
         <p className="text-[10px] font-semibold uppercase tracking-[0.22em] text-cyan-200/80">
-          Water kept this run
+          Estimated water kept this run
         </p>
         <p className="mt-1 text-3xl font-extrabold tracking-tight text-white tabular-nums sm:text-4xl">
           {saved > 0 ? (
