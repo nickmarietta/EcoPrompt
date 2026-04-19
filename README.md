@@ -1,3 +1,19 @@
+# 🌿 EcoPrompt
+
+EcoPrompt is a full-stack web application that optimizes user prompts for clarity, efficiency, and reduced AI compute usage. It uses a **HumanDelta + Ollama pipeline** to rewrite prompts and visualize their environmental impact.
+
+---
+
+## 🚀 Tech Stack
+
+- **Frontend:** Next.js (React + Tailwind)
+- **Backend:** FastAPI (Python)
+- **LLM:** Ollama (local models like `qwen2.5:1.5b`)
+- **Evaluation:** HumanDelta
+- **Database (optional):** PostgreSQL (Neon)
+
+---
+
 ## 🧠 Ollama Setup (AI Engine)
 
 Ollama runs the local AI model used for prompt optimization.
