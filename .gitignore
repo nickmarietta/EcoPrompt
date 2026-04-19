@@ -1,0 +1,15 @@
+.env
+venv/
+__pycache__/
+frontend/node_modules/
+frontend/dist/
+frontend/build/
+frontend/public/
+frontend/src/
+frontend/src/assets/
+frontend/src/components/
+frontend/src/pages/
+frontend/src/utils/
+frontend/src/styles/
+frontend/src/types/
+frontend/src/hooks/
